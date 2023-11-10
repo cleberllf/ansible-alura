@@ -1,0 +1,8 @@
+Aula 01:
+ansible wordpress -u vagrant --private-key .vagrant/machines/wordpress/virtualbox/private_key -i hosts01 -m shell -a 'echo Hello, World'
+
+Aula 02:
+ansible-playbook provisioning.yml -u vagrant -i hosts01 --private-key .vagrant/machines/wordpress/virtualbox/private_key
+
+Aula 03:
+ansible-playbook provisioning.yml -i hosts02
