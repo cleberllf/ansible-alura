@@ -6,3 +6,4 @@ ansible-playbook provisioning01.yml -u vagrant -i hosts01 --private-key .vagrant
 
 Aula 03:
 ansible-playbook provisioning02.yml -i hosts02
+
