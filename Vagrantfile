@@ -13,8 +13,8 @@ Vagrant.configure("2") do |config|
       machine.vm.box = "#{conf["image"]}"
       machine.vm.hostname = "#{name}"
       machine.vm.network "private_network", ip: "192.168.0.#{conf["ipA"]}"
-      machine.vm.network "public_network", ip: "172.16.0.#{conf["ipB"]}"
-      #machine.vm.network "forwarded_port", guest: 22, host: 2222
+      #machine.vm.network "public_network", ip: "172.16.0.#{conf["ipB"]}"
+      machine.vm.network "forwarded_port", guest: 80, host: 8080
 #      machine.vm.network "public_network", ip: "172.16.0.#{conf["ipB"]}", bridge: "eno1"
       machine.vm.provider "virtualbox" do |vb|
         vb.name = "#{name}"
@@ -23,6 +23,7 @@ Vagrant.configure("2") do |config|
         vb.linked_clone = conf["clone"]
       end
       #machine.vm.provision "shell", path: "shell_script.sh"
+      machine.vm.synced_folder ".", "/vagrant", disabled: true
     end
   end
 end

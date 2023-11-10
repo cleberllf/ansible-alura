@@ -1,4 +1,4 @@
 ---
 - hosts: all
   tasks:
-    - shell: 'echo hello > /vagrant/world.txt'
+    - shell: 'echo hello > /home/vagrant/world.txt'
