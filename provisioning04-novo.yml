@@ -4,7 +4,7 @@
     - name: 'Instala pacotes de dependência'
       apt:
         name:
-        - php
+        - php-common
         - apache2
         - libapache2-mod-php
         state: latest

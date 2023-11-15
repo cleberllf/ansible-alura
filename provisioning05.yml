@@ -4,14 +4,15 @@
     - name: 'Instala pacotes de dependência'
       apt:
         name:
-        - php
+        - php-common
         - apache2
         - libapache2-mod-php
         - php-gd
-        - libssh2-php
-        - php-mcrypt
-        - mysql-server-5.6
-        - python-mysqldb
+          #        - libssh2-php
+          #        - php-mcrypt
+        - mysql-server
+        - python3-mysqldb
         - php-mysql
         state: latest
+        update_cache: yes
       become: yes

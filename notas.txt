@@ -1,3 +1,8 @@
+sed -i 's/PasswordAuthentication\ no/PasswordAuthentication\ yes/' ./ssh/sshd_config
+ssh-copy-id vagrant@192.168.0.251
+
+ansible -i hosts grupo -m shell -a 'cat /etc/os-release'
+
 Aula 01:
 ansible wordpress -u vagrant --private-key /mnt/d/Users/Krebs/Projetos/Alura/ansible/.vagrant/machines/wordpress/virtualbox/private_key -i hosts01 -m shell -a 'echo Hello, World'
 
