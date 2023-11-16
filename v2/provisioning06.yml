@@ -16,13 +16,13 @@
         - apache2
         - libapache2-mod-php
         - php-gd
-        - php-ssh2
-        - php-crypt-gpg
+#        - php-ssh2
+#        - php-crypt-gpg
         - mysql-server
         - python3-mysqldb
         - php-mysql
         state: latest
-#        update_cache: yes
+        update_cache: yes
       become: yes
 
     - name: 'Cria o banco do MySQL'
@@ -63,7 +63,7 @@
     - name: 'Configura o wp-config.php com as informações do banco de dados'
       replace:
         path: '/var/www//wordpress/wp-config.php'
-        regexp: '{{ item.regex: }}'
+        regexp: '{{ item.regex }}'
         replace: '{{ item.value }}'
       with_items:
         - { regex: 'database_name_here', value: 'wordpress_db'}

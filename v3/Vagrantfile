@@ -2,8 +2,8 @@
 # vi: set ft=ruby  :
 
 machines = {
-  "wordpress" => {"memory" => "1024", "cpu" => "1", "clone" => "true", "ipA" => "251", "ipB" => "251", "image" => "ubuntu/jammy64"},
-  "wordpress_bd" => {"memory" => "1024", "cpu" => "1", "clone" => "true", "ipA" => "252", "ipB" => "252", "image" => "ubuntu/jammy64"}
+  "server-app" => {"memory" => "1024", "cpu" => "1", "clone" => "true", "ipA" => "251", "ipB" => "251", "image" => "ubuntu/jammy64"},
+  "server-bd" => {"memory" => "1024", "cpu" => "1", "clone" => "true", "ipA" => "252", "ipB" => "252", "image" => "ubuntu/jammy64"}
 }
 
 Vagrant.configure("2") do |config|
@@ -14,8 +14,6 @@ Vagrant.configure("2") do |config|
       machine.vm.hostname = "#{name}"
       machine.vm.network "private_network", ip: "192.168.0.#{conf["ipA"]}"
       #machine.vm.network "public_network", ip: "172.16.0.#{conf["ipB"]}"
-      machine.vm.network "forwarded_port", guest: 80, host: 8080
-#      machine.vm.network "public_network", ip: "172.16.0.#{conf["ipB"]}", bridge: "eno1"
       machine.vm.provider "virtualbox" do |vb|
         vb.name = "#{name}"
         vb.memory = conf["memory"]
@@ -25,8 +23,12 @@ Vagrant.configure("2") do |config|
       machine.vm.provision "shell", inline: "sed -i 's/PasswordAuthentication\ no/PasswordAuthentication\ yes/' /etc/ssh/sshd_config", privileged: true
       machine.vm.provision "shell", inline: "systemctl restart sshd", privileged: true
       #machine.vm.provision "shell", inline: "apt update", privileged: true
-      #machine.vm.provision "shell", path: "shell_script.sh"
       machine.vm.synced_folder ".", "/vagrant", disabled: true
+      if "#{name}" == "server-app"
+        #machine.vm.network "forwarded_port", guest: 80, host: 8080
+      else
+        #machine.vm.provision "shell", path: "shell_script.sh"
+      end
     end
   end
 end

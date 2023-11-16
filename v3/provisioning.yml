@@ -1,28 +1,13 @@
 ---
-- hosts: all
-
-  handlers:
-    - name: restart apache
-      service:
-        name: apache2
-        state: restarted
-      become: yes
-        
+- hosts: database
   tasks:
     - name: 'Instala pacotes de dependência'
       apt:
         name:
-        - php-common
-        - apache2
-        - libapache2-mod-php
-        - php-gd
-        - php-ssh2
-        - php-crypt-gpg
         - mysql-server
         - python3-mysqldb
-        - php-mysql
         state: latest
-#        update_cache: yes
+        update_cache: yes
       become: yes
 
     - name: 'Cria o banco do MySQL'
@@ -39,6 +24,31 @@
         password: 12345
         priv: 'wordpress_db.*:ALL'
         state: present
+      become: yes
+
+- hosts: wordpress
+  handlers:
+    - name: restart apache
+      service:
+        name: apache2
+        state: restarted
+      become: yes
+        
+  tasks:
+    - name: 'Instala pacotes de dependência'
+      apt:
+        name:
+        - php-common
+        - apache2
+        - libapache2-mod-php
+        - php-gd
+#        - php-ssh2
+#        - php-crypt-gpg
+        - mysql-server
+        - python3-mysqldb
+        - php-mysql
+        state: latest
+        update_cache: yes
       become: yes
 
     - name: 'Baixa o arquivo do Wordpress'
@@ -63,7 +73,7 @@
     - name: 'Configura o wp-config.php com as informações do banco de dados'
       replace:
         path: '/var/www//wordpress/wp-config.php'
-        regexp: '{{ item.regex: }}'
+        regexp: '{{ item.regex }}'
         replace: '{{ item.value }}'
       with_items:
         - { regex: 'database_name_here', value: 'wordpress_db'}
