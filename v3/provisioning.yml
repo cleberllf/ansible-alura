@@ -1,5 +1,11 @@
 ---
 - hosts: database
+  handlers:
+    - name: restart mysql
+      service:
+        name: mysql
+        state: restarted
+      become: yes
   tasks:
     - name: 'Instala pacotes de dependência'
       apt:
@@ -7,7 +13,7 @@
         - mysql-server
         - python3-mysqldb
         state: latest
-        update_cache: yes
+#        update_cache: yes
       become: yes
 
     - name: 'Cria o banco do MySQL'
@@ -24,7 +30,20 @@
         password: 12345
         priv: 'wordpress_db.*:ALL'
         state: present
+        host: "{{ item }}"
+      with_items:
+        - 'localhost'
+        - '127.0.0.1'
+        - '192.168.0.251'
       become: yes
+
+    - name: 'Configura o MySQL para aceitar conexões remotas'
+      copy:
+        src: 'files/mysqld.cnf'
+        dest: '/etc/mysql/mysql.conf.d/mysqld.cnf'
+      become: yes
+      notify:
+        - restart mysql
 
 - hosts: wordpress
   handlers:
@@ -65,20 +84,21 @@
 
     - name: 'Criando o arquivo de configuração do Wordpress'
       copy:
-        src: '/var/www//wordpress/wp-config-sample.php'
-        dest: '/var/www//wordpress/wp-config.php'
+        src: '/var/www/wordpress/wp-config-sample.php'
+        dest: '/var/www/wordpress/wp-config.php'
         remote_src: yes
       become: yes
       
     - name: 'Configura o wp-config.php com as informações do banco de dados'
       replace:
-        path: '/var/www//wordpress/wp-config.php'
+        path: '/var/www/wordpress/wp-config.php'
         regexp: '{{ item.regex }}'
         replace: '{{ item.value }}'
       with_items:
         - { regex: 'database_name_here', value: 'wordpress_db'}
         - { regex: 'username_here', value: 'wordpress_user'}
         - { regex: 'password_here', value: '12345'}
+        - { regex: 'localhost', value: '192.168.0.252'}
       become: yes
 
     - name: 'Configura o Apache para servir o Wordpress'
