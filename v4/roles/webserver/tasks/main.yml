@@ -1,0 +1,14 @@
+---
+- name: 'Instala pacotes do Apache e do PHP'
+  apt:
+    name:
+      - apache2
+      - php-common
+      - libapache2-mod-php
+      - php-gd
+      #        - php-ssh2
+      #        - php-crypt-gpg
+      - php-mysql
+    state: latest
+  #        update_cache: yes
+  become: true

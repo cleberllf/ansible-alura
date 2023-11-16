@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
       end
       machine.vm.provision "shell", inline: "sed -i 's/PasswordAuthentication\ no/PasswordAuthentication\ yes/' /etc/ssh/sshd_config", privileged: true
       machine.vm.provision "shell", inline: "systemctl restart sshd", privileged: true
-      #machine.vm.provision "shell", inline: "apt update", privileged: true
+      #machine.vm.provision "shell", inline: "apt-get update", privileged: true
       #machine.vm.provision "shell", path: "shell_script.sh"
       machine.vm.synced_folder ".", "/vagrant", disabled: true
     end

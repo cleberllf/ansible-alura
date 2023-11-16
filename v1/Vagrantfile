@@ -2,7 +2,7 @@
 # vi: set ft=ruby  :
 
 machines = {
-  "wordpress" => {"memory" => "1024", "cpu" => "1", "clone" => "true", "ipA" => "251", "ipB" => "251", "image" => "ubuntu/jammy64"}
+  "wordpress" => {"memory" => "1024", "cpu" => "1", "clone" => "true", "ipA" => "250", "ipB" => "251", "image" => "ubuntu/jammy64"}
 }
 
 Vagrant.configure("2") do |config|

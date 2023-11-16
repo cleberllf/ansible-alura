@@ -7,7 +7,7 @@
         state: restarted
       become: yes
   tasks:
-    - name: 'Instala pacotes de dependência'
+    - name: 'Instala pacotes do MySQL'
       apt:
         name:
         - mysql-server
@@ -54,17 +54,15 @@
       become: yes
         
   tasks:
-    - name: 'Instala pacotes de dependência'
+    - name: 'Instala pacotes do Apache e do PHP'
       apt:
         name:
-        - php-common
         - apache2
         - libapache2-mod-php
+        - php-common
         - php-gd
 #        - php-ssh2
 #        - php-crypt-gpg
-        - mysql-server
-        - python3-mysqldb
         - php-mysql
         state: latest
         update_cache: yes

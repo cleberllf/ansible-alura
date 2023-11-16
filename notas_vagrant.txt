@@ -1,0 +1,3 @@
+vagrant destroy -f && vagrant up
+vagrant snapshot save app inicial && vagrant snapshot save mysql inicial
+vagrant snapshot restore app inicial && vagrant snapshot restore mysql inicial

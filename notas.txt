@@ -1,9 +1,8 @@
 sed -i 's/PasswordAuthentication\ no/PasswordAuthentication\ yes/' ./ssh/sshd_config
-ssh-keygen -R 192.168.0.251
-ssh-copy-id vagrant@192.168.0.251
 
-ssh-keygen -R 192.168.0.251 && ssh-keygen -R 192.168.0.252
-ssh-copy-id vagrant@192.168.0.251 && ssh-copy-id vagrant@192.168.0.252
+ssh-keygen -R 192.168.0.250 && ssh-copy-id vagrant@192.168.0.250
+
+ssh-keygen -R 192.168.0.251 && ssh-keygen -R 192.168.0.252 && ssh-copy-id vagrant@192.168.0.251 && ssh-copy-id vagrant@192.168.0.252
 
 ansible -i hosts grupo -m shell -a 'cat /etc/os-release'
 
@@ -15,4 +14,10 @@ ansible-playbook provisioning01.yml -u vagrant -i hosts01 --private-key .vagrant
 
 Aula 03:
 ansible-playbook provisioning02.yml -i hosts02
+
+Aula 06:
+/etc/mysql/mysql.conf.d/mysqld.cnf
+
+Aula 07:
+ansible-playbook -i hosts provisioning.yml --extra-vars 'wp_db_name=wordpress_db wp_username=wordpress_user'
 
