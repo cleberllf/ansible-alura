@@ -1,0 +1,5 @@
+---
+- hosts: all
+  tasks:
+    - shell: 'echo hello > /home/vagrant/world.txt'
+    - shell: 'cat /home/vagrant/world.txt''
